@@ -470,11 +470,8 @@ cmd_export_all_workflows () {
       resp2=$(curl -fsS "$CONSOLE_API_BASE/apps/$app_id/export?include_secret=$include" -H "$(auth_header)")
       dsl=$(echo "$resp2" | jq -r '.data // .dsl')
       [ -n "$dsl" ] && [ "$dsl" != "null" ] || { echo "!! export failed for $app_id"; continue; }
-      out="$OUT_DIR/apps/${slug}.yml"
-      # avoid overwrite when multiple apps slugify to the same name
-      if [ -e "$out" ]; then
-        out="$OUT_DIR/apps/${slug}-${app_id}.yml"
-      fi
+      # Always save with app_id suffix so repeated runs overwrite the same file deterministically
+      out="$OUT_DIR/apps/${slug}-${app_id}.yml"
       printf '%s\n' "$dsl" > "$out"
       echo "saved: $out"
     done

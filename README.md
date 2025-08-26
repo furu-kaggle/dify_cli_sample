@@ -45,6 +45,14 @@
   dify import ./dsl/sample.yml
   ```
 
+- 一括エクスポート（Workflow の DSL をすべて保存）
+  ```bash
+  dify export-all-workflows [include_secret=false]
+  # 保存先: ./dsl/apps/<slug>-<APP_ID>.yml
+  # 同じコマンドを複数回実行しても、同一アプリは同じパスに上書き保存されます。
+  # （<slug> が空になる場合は APP_ID が使用されます）
+  ```
+
 - 公開
   ```bash
   dify publish <WORKFLOW_APP_ID> [marked_name] [marked_comment]
